@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#F7F1E8">
+<meta name="view-transition" content="same-origin">
 <title>ådirá — Lebanese mouneh</title>
 <meta name="description" content="ådirá jams, pickles, sauces and pantry staples. Fill your basket and send the order on WhatsApp.">
 <link rel="icon" href="logo-red.png">
@@ -20,231 +21,296 @@
 @font-face{font-family:"Readex";font-weight:400;font-display:swap;src:url(readex-pro-arabic-400-normal.woff2) format("woff2");unicode-range:U+0600-06FF,U+0750-077F,U+0870-088E,U+0890-0891,U+0898-08E1,U+08E3-08FF,U+200C-200E,U+2010-2011,U+204F,U+2E41,U+FB50-FDFF,U+FE70-FE74,U+FE76-FEFC}
 @font-face{font-family:"Readex";font-weight:600;font-display:swap;src:url(readex-pro-arabic-600-normal.woff2) format("woff2");unicode-range:U+0600-06FF,U+0750-077F,U+0870-088E,U+0890-0891,U+0898-08E1,U+08E3-08FF,U+200C-200E,U+2010-2011,U+204F,U+2E41,U+FB50-FDFF,U+FE70-FE74,U+FE76-FEFC}
 @font-face{font-family:"Readex";font-weight:700;font-display:swap;src:url(readex-pro-arabic-700-normal.woff2) format("woff2");unicode-range:U+0600-06FF,U+0750-077F,U+0870-088E,U+0890-0891,U+0898-08E1,U+08E3-08FF,U+200C-200E,U+2010-2011,U+204F,U+2E41,U+FB50-FDFF,U+FE70-FE74,U+FE76-FEFC}
-
 /* ---------- tokens: the ådirá colors, unchanged ---------- */
 :root{
   --red:#CE1126; --red-dark:#9E0D1D; --red-soft:#FBE9EB;
   --cream:#F7F1E8; --paper:#FFFFFF; --line:#ECE3D6; --ink:#231A15; --muted:#8C7F75;
   --display:"Kufi","Readex",system-ui,sans-serif;
   --body:"Readex",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
-  --gutter:clamp(16px,4vw,40px);
+  --gutter:clamp(16px,4vw,48px);
+  --r:3px;
+  --ease:cubic-bezier(.2,.8,.2,1);
 }
-h1,h2,h3,.hero h1,.name-alt{word-spacing:.14em}
-html[dir=rtl] h1,html[dir=rtl] h2,html[dir=rtl] h3,html[dir=rtl] .hero-shelf .shelf-label strong{word-spacing:.1em}
-.alt[dir=ltr]{word-spacing:0}
 *{box-sizing:border-box;margin:0}
-html{-webkit-text-size-adjust:100%;scroll-padding-top:140px}
-body{background:var(--cream);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;min-height:100vh}
+html{-webkit-text-size-adjust:100%;scroll-padding-top:150px}
+body{background:var(--cream);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;min-height:100vh;overflow-x:hidden}
 img{display:block;max-width:100%}
 button,input,select,textarea{font:inherit;color:inherit}
-button{cursor:pointer;border:0;background:none}
+button{cursor:pointer;border:0;background:none;border-radius:0}
 a{color:inherit;text-decoration:none}
-:focus-visible{outline:2.5px solid var(--red);outline-offset:3px;border-radius:6px}
-.wrap{max-width:1280px;margin:0 auto;padding-inline:var(--gutter)}
+:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+.wrap{max-width:1320px;margin:0 auto;padding-inline:var(--gutter)}
 .hidden{display:none!important}
 .alt{font-family:var(--body);color:var(--muted);font-weight:400}
-.num{font-variant-numeric:tabular-nums}
+h1,h2,h3{word-spacing:.14em}
+html[dir=rtl] h1,html[dir=rtl] h2,html[dir=rtl] h3,html[dir=rtl] .hero-case-head strong{word-spacing:.22em}
+.alt[dir=ltr]{word-spacing:0}
+.dia{display:inline-block;width:9px;height:9px;flex:none;background:var(--c,var(--red));transform:rotate(45deg)}
 
 /* ---------- header ---------- */
-.top{position:sticky;top:0;z-index:40;background:rgba(247,241,232,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-.top-in{display:flex;align-items:center;gap:24px;height:72px}
-.logo img{height:36px;width:auto}
-.search{flex:1;max-width:460px;margin-inline:auto;display:flex;align-items:center;gap:10px;height:44px;padding-inline:16px;background:var(--paper);border:1px solid var(--line);border-radius:999px;cursor:text;transition:border-color .15s}
-.search:focus-within{border-color:var(--red)}
-.search svg{width:17px;height:17px;flex:none;stroke:var(--muted);fill:none;stroke-width:2}
+.top{position:sticky;top:0;z-index:40;background:var(--cream);border-bottom:1px solid var(--line);view-transition-name:top}
+.top-in{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:28px;height:76px}
+.logo img{height:38px;width:auto}
+.search{justify-self:center;width:100%;max-width:520px;display:flex;align-items:center;gap:12px;height:46px;padding-inline:14px;background:var(--paper);border:1.5px solid var(--line);border-radius:var(--r);cursor:text;transition:border-color .2s}
+.search:focus-within{border-color:var(--ink)}
+.search svg{width:18px;height:18px;flex:none;stroke:var(--ink);fill:none;stroke-width:1.8}
 .search input{border:0;outline:0;background:none;width:100%;height:100%;font-size:.95rem}
 .search input::placeholder{color:#AA9E94}
-.top-act{display:flex;align-items:center;gap:10px}
-.lang{height:40px;padding-inline:14px;border-radius:999px;font-weight:600;font-size:.9rem;color:var(--ink);border:1px solid var(--line);background:var(--paper)}
-.lang:hover{border-color:var(--ink)}
-.basket{display:flex;align-items:center;gap:10px;height:44px;padding-inline:18px 8px;border-radius:999px;background:var(--red);color:#fff;font-weight:600;font-size:.95rem;transition:background .15s}
-html[dir=rtl] .basket{padding-inline:18px 8px}
+.top-act{display:flex;align-items:stretch;gap:20px;height:46px}
+.lang{font-weight:600;font-size:.92rem;position:relative;padding-inline:2px}
+.lang::after{content:"";position:absolute;inset-inline:0;bottom:10px;height:1.5px;background:currentColor;transform:scaleX(0);transition:transform .25s var(--ease)}
+.lang:hover::after{transform:scaleX(1)}
+.basket{display:flex;align-items:center;gap:12px;padding-inline:16px 0;background:var(--red);color:#fff;font-weight:600;font-size:.95rem;border-radius:var(--r);overflow:hidden;transition:background .2s}
+html[dir=rtl] .basket{padding-inline:16px 0}
 .basket:hover{background:var(--red-dark)}
-.basket svg{width:19px;height:19px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.basket b{min-width:28px;height:28px;padding-inline:8px;border-radius:999px;background:#fff;color:var(--red);display:grid;place-items:center;font-size:.85rem;font-variant-numeric:tabular-nums}
-.rail{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-block:0 12px}
+.basket svg{width:19px;height:19px;stroke:#fff;fill:none;stroke-width:1.9;stroke-linejoin:round}
+.basket b{align-self:stretch;min-width:46px;display:grid;place-items:center;background:var(--ink);font-variant-numeric:tabular-nums}
+.rail{position:relative;overflow-x:auto;scrollbar-width:none}
 .rail::-webkit-scrollbar{display:none}
-.rail a{flex:none;display:flex;align-items:center;gap:8px;height:36px;padding-inline:14px;border-radius:999px;font-size:.9rem;font-weight:600;color:#5E544C;transition:background .15s,color .15s}
-.rail a:hover{background:var(--paper);color:var(--ink)}
-.rail a[aria-current=true]{background:var(--ink);color:#fff}
-.dia{display:inline-block;width:9px;height:9px;flex:none;background:var(--c,var(--red));transform:rotate(45deg);border-radius:1.5px}
+.rail-in{position:relative;display:flex;gap:30px;width:max-content;min-width:100%}
+.rail a{display:flex;align-items:center;gap:9px;height:46px;font-size:.92rem;font-weight:600;color:#6B6058;white-space:nowrap;transition:color .2s}
+.rail a:hover,.rail a[aria-current=true]{color:var(--ink)}
+.rail-ind{position:absolute;bottom:-1px;height:3px;background:var(--red);left:0;width:0;opacity:0;transition:left .45s var(--ease),width .45s var(--ease),opacity .2s}
+
+/* ---------- buttons & controls: straight edges, like the labels ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;height:54px;padding-inline:28px;border-radius:var(--r);background:var(--red);color:#fff;font-weight:600;font-size:1rem;letter-spacing:.01em;position:relative;overflow:hidden;transition:background .2s}
+.btn::before{content:"";position:absolute;inset:0;background:var(--ink);transform:scaleX(0);transform-origin:left;transition:transform .45s var(--ease);z-index:0}
+html[dir=rtl] .btn::before{transform-origin:right}
+.btn:hover::before{transform:scaleX(1)}
+.btn>*{position:relative;z-index:1}
+.btn svg{width:22px;height:22px;fill:currentColor}
+.btn.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink)}
+.btn.ghost:hover{color:#fff}
+.btn.wide{width:100%}
+.add{width:40px;height:40px;flex:none;display:grid;place-items:center;background:var(--ink);border-radius:var(--r);transition:background .2s,transform .2s var(--ease)}
+.add:hover{background:var(--red)}
+.add:active{transform:scale(.92)}
+.add svg{width:15px;height:15px;stroke:#fff;stroke-width:2.6;fill:none;stroke-linecap:square}
+.add[disabled]{background:#D8D0C6;cursor:not-allowed}
+.qty{display:inline-grid;grid-template-columns:36px minmax(34px,auto) 36px;height:40px;border:1.5px solid var(--ink);border-radius:var(--r);overflow:hidden;background:var(--paper)}
+.qty button{display:grid;place-items:center;font-size:1.15rem;font-weight:600;line-height:1;transition:background .15s,color .15s}
+.qty button:hover{background:var(--ink);color:#fff}
+.qty span{display:grid;place-items:center;font-weight:700;font-variant-numeric:tabular-nums;border-inline:1.5px solid var(--ink);padding-inline:6px}
+.qty.fresh{animation:pop .35s var(--ease)}
+.qty.lg{grid-template-columns:52px 60px 52px;height:54px}
+.qty.lg span{font-size:1.1rem}
+@keyframes pop{0%{transform:scale(.85);opacity:.4}100%{transform:none;opacity:1}}
 
 /* ---------- hero ---------- */
-.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:clamp(24px,5vw,72px);align-items:end;padding-block:clamp(28px,5vw,64px) 16px}
-.hero h1{font-family:var(--display);font-weight:700;line-height:1.02;letter-spacing:-.01em}
-.hero h1 .l1{display:block;font-size:clamp(2.6rem,6.2vw,5.2rem)}
-.hero h1 .l2{display:block;color:var(--red);font-size:clamp(1.7rem,3.6vw,3rem);margin-top:.3em}
-html[dir=rtl] .hero h1{line-height:1.25}
-.lede{margin-top:22px;max-width:44ch;font-size:1.06rem;color:#4A413A}
-.steps{list-style:none;padding:0;margin-top:28px;display:grid;gap:10px;counter-reset:s}
-.steps li{counter-increment:s;display:flex;align-items:center;gap:14px;font-weight:600;font-size:.95rem}
-.steps li::before{content:counter(s);width:30px;height:30px;flex:none;border-radius:50%;display:grid;place-items:center;border:1.5px solid var(--red);color:var(--red);font-family:var(--display);font-size:.9rem}
-.steps li:last-child::before{background:var(--red);color:#fff}
-.hero-shelf .shelf{grid-template-columns:repeat(4,minmax(0,1fr))}
-.hero-shelf .tag{padding-inline:10px}
-.hero-shelf .tag-foot{flex-direction:column;align-items:stretch;gap:8px}
-.hero-shelf .tag-foot .plus,.hero-shelf .tag-foot .step{align-self:flex-end}
-.hero-shelf .price.tbc{font-size:.74rem}
-.hero-shelf .shelf-label{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;font-size:.85rem;color:var(--muted)}
-.hero-shelf .shelf-label strong{font-family:var(--display);font-weight:600;color:var(--ink);font-size:1rem}
+.hero{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:clamp(28px,5vw,80px);align-items:end;padding-block:clamp(36px,6vw,80px) 10px}
+.hero h1{font-family:var(--display);font-weight:700;line-height:1.02}
+.hero h1 .ln{display:block;overflow:hidden;padding-bottom:.08em}
+.hero h1 .ln>span{display:inline-block}
+.hero h1 .l1{font-size:clamp(2.8rem,6.6vw,5.8rem)}
+.hero h1 .l2{color:var(--red);font-size:clamp(1.7rem,3.6vw,3.1rem);margin-top:.18em}
+html[dir=rtl] .hero h1{line-height:1.3}
+.lede{margin-top:24px;max-width:44ch;font-size:1.06rem;color:#4A413A}
+.steps{list-style:none;padding:0;margin-top:30px;display:grid;gap:14px;counter-reset:s;border-top:1px solid var(--line);padding-top:22px;max-width:420px}
+.steps li{counter-increment:s;position:relative;display:flex;align-items:center;min-height:28px;padding-inline-start:46px;font-weight:600;font-size:.95rem}
+.steps li::before{content:"";position:absolute;inset-inline-start:5px;top:50%;width:18px;height:18px;margin-top:-9px;transform:rotate(45deg);border:1.5px solid var(--red)}
+.steps li::after{content:counter(s);position:absolute;inset-inline-start:5px;top:50%;width:18px;margin-top:-.62em;text-align:center;color:var(--red);font-size:.72rem;font-weight:700;line-height:1.24}
+.steps li:last-child::before{background:var(--red)}
+.steps li:last-child::after{color:#fff}
+.hero-case{background:var(--paper);border:1px solid var(--line);padding:20px 20px 0;position:relative}
+.hero-case-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+.hero-case-head strong{font-family:var(--display);font-weight:600;font-size:1.05rem}
+.hero-case-head a{font-size:.85rem;color:var(--muted);font-weight:600;transition:color .2s}
+.hero-case-head a:hover{color:var(--red)}
+.hero-case .shelf{grid-template-columns:repeat(4,minmax(0,1fr));margin-inline:-20px}
+.hero-case .jar{background:var(--paper)}
+.hero-case .tag{box-shadow:none;border:1px solid var(--line);border-top:0;margin:0 8px;padding-inline:11px}
+.hero-case .tag h3{font-size:.95rem}
+.hero-case .tag-foot{flex-direction:column;align-items:stretch;gap:10px}
+.hero-case .tag-foot .ctl{align-self:flex-end}
+.hero-case .price.tbc{font-size:.74rem}
 
-/* ---------- the dukkan shelf: signature ---------- */
-.shelf{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));column-gap:0;row-gap:34px}
+/* ---------- the shelf ---------- */
+.shelf{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));row-gap:40px}
 .item{min-width:0;display:flex;flex-direction:column}
 .jar{position:relative;display:block;aspect-ratio:1/1;isolation:isolate;overflow:hidden;background:var(--cream)}
 .jar::after{content:"";position:absolute;inset-inline:0;bottom:0;height:14%;background:linear-gradient(var(--red) 0 58%,var(--red-dark) 58% 100%);z-index:0}
-.jar img,.jar svg{position:relative;z-index:1;width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply;transition:transform .3s cubic-bezier(.2,.8,.2,1)}
-.item:hover .jar img,.item:hover .jar svg{transform:translateY(-8px)}
-.jar .badge{position:absolute;z-index:2;top:10px;inset-inline-start:12px;font-size:.68rem;font-weight:600;letter-spacing:.03em;text-transform:uppercase;color:#fff;background:var(--c,var(--red));padding:3px 9px;border-radius:4px}
+.jar img,.jar svg{position:relative;z-index:1;width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply;transition:transform .5s var(--ease)}
+.item:hover .jar img,.item:hover .jar svg{transform:translateY(-10px) rotate(-1.5deg)}
+.jar .label{position:absolute;z-index:2;top:12px;inset-inline-start:12px;font-size:.66rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#fff;background:var(--c,var(--red));padding:4px 8px}
 .item.out .jar img{filter:grayscale(1);opacity:.5}
-/* the tag clipped under the plank */
-.tag{position:relative;margin:0 10px;padding:16px 14px 12px;background:var(--paper);border-radius:0 0 10px 10px;box-shadow:0 1px 0 var(--line),0 6px 16px rgba(35,26,21,.06);display:flex;flex-direction:column;flex:1}
-.tag::before{content:"";position:absolute;top:0;left:50%;width:34px;height:6px;transform:translateX(-50%);background:var(--red-dark);border-radius:0 0 4px 4px;opacity:.9}
-.tag h3{font-family:var(--display);font-weight:600;font-size:1.02rem;line-height:1.2;overflow-wrap:break-word;hyphens:auto;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
-.tag .alt{font-size:.84rem;line-height:1.35;margin-top:2px}
-.tag .unit{font-size:.76rem;color:var(--muted);margin-top:8px;padding-top:8px;border-top:1px dashed var(--line)}
-.tag-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:auto;padding-top:10px}
-.price{font-weight:700;color:var(--red);font-size:1.1rem;font-variant-numeric:tabular-nums}
-.price.tbc{font-weight:400;color:var(--muted);font-size:.8rem}
-.plus{width:36px;height:36px;flex:none;border-radius:50%;background:var(--ink);display:grid;place-items:center;transition:background .15s,transform .15s}
-.plus:hover{background:var(--red);transform:scale(1.06)}
-.plus svg{width:15px;height:15px;stroke:#fff;stroke-width:2.8;fill:none;stroke-linecap:round}
-.plus[disabled]{background:#D8D0C6;cursor:not-allowed;transform:none}
-.step{display:inline-flex;align-items:center;background:var(--red-soft);border-radius:999px;padding:3px}
-.step button{width:30px;height:30px;border-radius:50%;background:var(--red);color:#fff;font-weight:700;display:grid;place-items:center;line-height:1}
-.step span{min-width:26px;text-align:center;font-weight:700;color:var(--red);font-variant-numeric:tabular-nums}
-.step.lg button{width:44px;height:44px;font-size:1.2rem}
-.step.lg span{min-width:44px;font-size:1.1rem}
+.tag{position:relative;margin:0 12px;padding:18px 14px 14px;background:var(--paper);box-shadow:0 1px 0 var(--line),0 8px 18px rgba(35,26,21,.05);display:flex;flex-direction:column;flex:1;transition:transform .5s var(--ease)}
+.item:hover .tag{transform:translateY(2px) rotate(.4deg)}
+.tag::before{content:"";position:absolute;top:0;left:50%;width:30px;height:7px;transform:translateX(-50%);background:var(--red-dark)}
+.tag h3{font-family:var(--display);font-weight:600;font-size:1.04rem;line-height:1.2;hyphens:auto}
+.tag .alt{font-size:.84rem;line-height:1.35;margin-top:3px}
+.tag .unit{font-size:.76rem;color:var(--muted);margin-top:10px;padding-top:10px;border-top:1px dashed var(--line)}
+.tag-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:auto;padding-top:12px}
+.price{font-weight:700;color:var(--red);font-size:1.12rem;font-variant-numeric:tabular-nums}
+.price.tbc{font-weight:400;color:var(--muted);font-size:.8rem;line-height:1.25}
 
-/* ---------- aisles (one per category) ---------- */
-.aisle{padding-block:44px 8px}
-.aisle-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding-bottom:18px;margin-bottom:6px;border-bottom:2px solid var(--ink)}
-.aisle-head h2{display:flex;align-items:center;gap:14px;font-family:var(--display);font-weight:700;font-size:clamp(1.6rem,3vw,2.3rem);line-height:1.1}
-.aisle-head h2 .dia{width:13px;height:13px}
-.aisle-head h2 .alt{font-family:var(--display);font-weight:600;font-size:.6em;color:var(--muted)}
-.aisle-head .count{font-size:.85rem;color:var(--muted);white-space:nowrap}
-.aisle .shelf{margin-top:18px}
-.empty{text-align:center;color:var(--muted);padding:64px 16px}
-.empty strong{display:block;font-family:var(--display);font-size:1.5rem;color:var(--ink);margin-bottom:6px}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:52px;padding-inline:26px;border-radius:999px;background:var(--red);color:#fff;font-weight:600;font-size:1rem;transition:background .15s}
-.btn:hover{background:var(--red-dark)}
-.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
-.btn.ghost:hover{background:var(--ink);color:#fff}
-.btn svg{width:22px;height:22px;fill:currentColor}
-.btn.wide{width:100%}
+/* ---------- aisles ---------- */
+.aisle{padding-block:64px 8px}
+.aisle-head{position:relative;display:flex;align-items:flex-end;justify-content:space-between;gap:16px;padding-bottom:18px;margin-bottom:24px}
+.aisle-head::after{content:"";position:absolute;inset-inline:0;bottom:0;height:2px;background:var(--ink);transform-origin:left;transition:transform 1s var(--ease)}
+html[dir=rtl] .aisle-head::after{transform-origin:right}
+.aisle-head h2{display:flex;align-items:center;gap:16px;font-family:var(--display);font-weight:700;font-size:clamp(1.8rem,3.4vw,2.8rem);line-height:1.05}
+.aisle-head h2 .dia{width:14px;height:14px}
+.aisle-head h2 .alt{font-family:var(--display);font-weight:600;font-size:.55em}
+.aisle-head .count{font-size:.85rem;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+.empty{text-align:center;color:var(--muted);padding:80px 16px}
+.empty strong{display:block;font-family:var(--display);font-size:1.6rem;color:var(--ink);margin-bottom:8px}
 
 /* ---------- product page ---------- */
-.back{display:inline-flex;align-items:center;gap:6px;margin-top:22px;color:var(--muted);font-weight:600;font-size:.9rem}
-.back:hover{color:var(--ink)}
+.back{display:inline-flex;align-items:center;gap:8px;margin-top:26px;color:var(--muted);font-weight:600;font-size:.9rem;transition:color .2s,gap .25s var(--ease)}
+.back:hover{color:var(--ink);gap:12px}
 .back svg{width:16px;height:16px}
 html[dir=rtl] .back svg{transform:scaleX(-1)}
-.pdp{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,5vw,72px);align-items:center;padding-block:18px 20px}
-.pdp .jar{max-width:560px;width:100%;margin-inline:auto}
-.pdp .crumb{display:flex;align-items:center;gap:8px;font-size:.85rem;font-weight:600;color:#5E544C}
-.pdp h1{font-family:var(--display);font-weight:700;font-size:clamp(2rem,4.4vw,3.4rem);line-height:1.05;margin-top:14px}
-.pdp .name-alt{font-family:var(--display);font-weight:600;color:var(--red);font-size:clamp(1.2rem,2.2vw,1.7rem);margin-top:6px}
-.pdp .price{display:block;font-size:1.9rem;margin-top:22px}
+.pdp{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,5vw,88px);align-items:center;padding-block:18px 24px}
+.pdp .jar{max-width:600px;width:100%;margin-inline:auto}
+.pdp .crumb{display:flex;align-items:center;gap:10px;font-size:.82rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#5E544C}
+.pdp h1{font-family:var(--display);font-weight:700;font-size:clamp(2.2rem,4.8vw,3.8rem);line-height:1.04;margin-top:16px}
+.pdp .name-alt{font-family:var(--display);font-weight:600;color:var(--red);font-size:clamp(1.3rem,2.3vw,1.8rem);margin-top:6px}
+.pdp .price{display:block;font-size:2rem;margin-top:26px}
 .pdp .price.tbc{font-size:1rem}
-.sizes{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
-.sizes a{height:40px;display:flex;align-items:center;padding-inline:16px;border-radius:999px;border:1.5px solid var(--line);background:var(--paper);font-weight:600;font-size:.88rem}
-.sizes a:hover{border-color:var(--ink)}
-.sizes a[aria-current=true]{border-color:var(--ink);background:var(--ink);color:#fff}
-.pdp .desc{margin-top:22px;color:#4A413A;line-height:1.7;max-width:52ch}
-.buy{display:flex;align-items:center;gap:14px;margin-top:28px;flex-wrap:wrap}
-.buy .btn{flex:1;min-width:200px}
-.soldout-note{margin-top:26px;padding:14px 16px;border-radius:12px;background:var(--red-soft);color:var(--red);font-weight:600}
-.more{padding-block:20px 10px}
+.opt-label{font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:26px;margin-bottom:10px}
+.sizes{display:flex;flex-wrap:wrap}
+.sizes a{min-width:110px;padding:12px 16px;border:1.5px solid var(--line);margin-inline-end:-1.5px;background:var(--paper);font-weight:600;font-size:.88rem;text-align:center;transition:border-color .2s,background .2s,color .2s;position:relative}
+.sizes a:first-child{border-start-start-radius:var(--r);border-end-start-radius:var(--r)}
+.sizes a:last-child{border-start-end-radius:var(--r);border-end-end-radius:var(--r)}
+.sizes a:hover{border-color:var(--ink);z-index:1}
+.sizes a[aria-current=true]{border-color:var(--ink);background:var(--ink);color:#fff;z-index:2}
+.pdp .desc{margin-top:26px;color:#4A413A;line-height:1.75;max-width:52ch}
+.buy{display:flex;align-items:center;gap:12px;margin-top:30px;flex-wrap:wrap}
+.buy .btn{flex:1;min-width:210px}
+.soldout-note{margin-top:28px;padding:16px;background:var(--red-soft);color:var(--red);font-weight:600;border-inline-start:3px solid var(--red)}
+.pdp-in>*{animation:slidein .6s var(--ease) both}
+.pdp-in>*:nth-child(2){animation-delay:.05s}.pdp-in>*:nth-child(3){animation-delay:.1s}.pdp-in>*:nth-child(4){animation-delay:.15s}.pdp-in>*:nth-child(5){animation-delay:.2s}.pdp-in>*:nth-child(6){animation-delay:.25s}.pdp-in>*:nth-child(7){animation-delay:.3s}.pdp-in>*:nth-child(8){animation-delay:.35s}
+@keyframes slidein{from{opacity:0;transform:translateY(18px)}}
 
 /* ---------- basket = receipt ---------- */
-.checkout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:start;padding-block:24px 40px}
-.checkout h1{font-family:var(--display);font-weight:700;font-size:clamp(2rem,4vw,3rem);line-height:1.05;margin-bottom:20px}
-.receipt{position:relative;background:var(--paper);padding:28px 26px 34px;box-shadow:0 10px 30px rgba(35,26,21,.08);
-  -webkit-mask:radial-gradient(10px at 50% 100%,#0000 97%,#000) 50% 100%/20px 100% repeat-x, linear-gradient(#000,#000) top/100% calc(100% - 10px) no-repeat;
+.checkout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,4vw,64px);align-items:start;padding-block:32px 48px}
+.checkout h1{font-family:var(--display);font-weight:700;font-size:clamp(2.2rem,4.2vw,3.2rem);line-height:1.05;margin-bottom:22px}
+.receipt{position:relative;background:var(--paper);padding:30px 28px 38px;filter:drop-shadow(0 10px 22px rgba(35,26,21,.08));
+  -webkit-mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) 50%/18px 100%;
           mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) 50%/18px 100%}
-.receipt-head{display:flex;justify-content:space-between;align-items:center;padding-bottom:16px;border-bottom:1.5px dashed var(--line)}
+.receipt-head{display:flex;justify-content:space-between;align-items:center;padding-bottom:18px;border-bottom:1.5px dashed var(--line)}
 .receipt-head img{height:28px}
 .receipt-head span{font-size:.8rem;color:var(--muted)}
-.rline{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:6px 12px;align-items:center;padding-block:14px;border-bottom:1px dashed var(--line)}
-.rline .q{font-weight:700;color:var(--red);font-variant-numeric:tabular-nums;min-width:26px}
+.rline{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:8px 14px;align-items:center;padding-block:16px;border-bottom:1px dashed var(--line)}
+.rline .q{font-weight:700;color:var(--red);font-variant-numeric:tabular-nums;min-width:28px}
 .rline .n strong{display:block;font-weight:600;line-height:1.3}
 .rline .n small{color:var(--muted);font-size:.8rem}
 .rline .p{font-weight:600;text-align:end;font-variant-numeric:tabular-nums}
 .rline .p.tbc{font-weight:400;color:var(--muted);font-size:.8rem}
 .rline .ctl{grid-column:2/4;display:flex;justify-content:space-between;align-items:center}
-.rline .rm{font-size:.8rem;color:var(--muted);text-decoration:underline}
-.rsum{padding-top:14px;display:grid;gap:6px}
+.rline .qty{height:34px;grid-template-columns:32px minmax(30px,auto) 32px}
+.rline .rm{font-size:.8rem;color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+.rline .rm:hover{color:var(--red)}
+.rsum{padding-top:16px;display:grid;gap:8px}
 .rsum div{display:flex;justify-content:space-between;gap:12px;color:#5E544C;font-size:.95rem}
-.rsum .total{margin-top:8px;padding-top:12px;border-top:2px solid var(--ink);color:var(--ink);font-family:var(--display);font-weight:700;font-size:1.35rem}
+.rsum .total{margin-top:8px;padding-top:14px;border-top:2px solid var(--ink);color:var(--ink);font-family:var(--display);font-weight:700;font-size:1.4rem}
 .rsum .total span:last-child{color:var(--red)}
 .rnote{margin-top:12px;font-size:.8rem;color:var(--muted)}
-.deliver{background:var(--paper);border-radius:18px;padding:26px;border:1px solid var(--line)}
-.deliver h2{font-family:var(--display);font-weight:700;font-size:1.4rem;margin-bottom:16px}
-form{display:grid;gap:12px}
-label{display:grid;gap:6px;font-size:.85rem;font-weight:600}
-input,select,textarea{border:1px solid var(--line);background:var(--cream);border-radius:12px;padding:12px 14px;width:100%;font-weight:400;font-size:.95rem;transition:border-color .15s,background .15s}
-input:focus,select:focus,textarea:focus{outline:0;border-color:var(--ink);background:#fff}
-textarea{min-height:72px;resize:vertical}
-.err{color:var(--red);font-size:.8rem;font-weight:600}
+.deliver{background:var(--paper);padding:28px;border:1px solid var(--line);border-top:3px solid var(--red)}
+.deliver h2{font-family:var(--display);font-weight:700;font-size:1.5rem;margin-bottom:18px}
+form{display:grid;gap:14px}
+label{display:grid;gap:6px;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#5E544C}
+input,select,textarea{border:0;border-bottom:1.5px solid var(--line);background:var(--cream);border-radius:var(--r) var(--r) 0 0;padding:13px 14px;width:100%;font-weight:400;font-size:.98rem;letter-spacing:0;text-transform:none;color:var(--ink);transition:border-color .2s,background .2s}
+input:focus,select:focus,textarea:focus{outline:0;border-bottom-color:var(--ink);background:#fff}
+textarea{min-height:76px;resize:vertical}
+.err{color:var(--red);font-size:.8rem;font-weight:600;text-transform:none;letter-spacing:0}
 .err:empty{display:none}
-.send{margin-top:20px}
+.send{margin-top:22px}
 .send-note{margin-top:10px;text-align:center;font-size:.8rem;color:var(--muted)}
 
 /* ---------- footer, order bar, toast ---------- */
-footer{margin-top:56px;background:var(--ink);color:#E9E1D6}
-.foot-in{display:flex;flex-wrap:wrap;gap:20px 40px;justify-content:space-between;align-items:center;padding-block:34px}
+footer{margin-top:72px;background:var(--ink);color:#E9E1D6}
+.foot-in{display:flex;flex-wrap:wrap;gap:20px 40px;justify-content:space-between;align-items:center;padding-block:38px}
 .foot-in img{height:30px;filter:brightness(0) invert(1)}
 .foot-in p{font-size:.9rem;color:#B8ADA2}
-.foot-in a.wa{display:inline-flex;align-items:center;gap:10px;height:46px;padding-inline:20px;border-radius:999px;background:#fff;color:var(--ink);font-weight:600}
+.foot-in a.wa{display:inline-flex;align-items:center;gap:10px;height:48px;padding-inline:20px;background:#fff;color:var(--ink);font-weight:600;border-radius:var(--r);transition:background .2s,color .2s}
+.foot-in a.wa:hover{background:var(--red);color:#fff}
 .foot-in a.wa svg{width:20px;height:20px;fill:#1FA855}
+.foot-in a.wa:hover svg{fill:#fff}
 .orderbar{display:none}
-.orderbar.off{visibility:hidden}
-.toast{position:fixed;left:50%;transform:translateX(-50%) translateY(10px);bottom:28px;background:var(--ink);color:#fff;padding:12px 20px;border-radius:999px;z-index:60;opacity:0;transition:opacity .2s,transform .2s;pointer-events:none;font-weight:600;font-size:.9rem;white-space:nowrap}
-.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast{position:fixed;left:50%;bottom:28px;background:var(--ink);color:#fff;padding:13px 20px;border-inline-start:4px solid var(--red);z-index:60;opacity:0;transform:translate(-50%,16px);transition:opacity .25s,transform .35s var(--ease);pointer-events:none;font-weight:600;font-size:.9rem;white-space:nowrap}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+.flyer{position:fixed;z-index:80;pointer-events:none;object-fit:contain;mix-blend-mode:multiply}
 
-/* ---------- arrival: jars set down on the hero shelf ---------- */
-@keyframes setdown{from{opacity:0;transform:translateY(-18px)}to{opacity:1;transform:none}}
-.hero-shelf .item{animation:setdown .5s cubic-bezier(.2,.8,.2,1) both}
-.hero-shelf .item:nth-child(2){animation-delay:.08s}.hero-shelf .item:nth-child(3){animation-delay:.16s}.hero-shelf .item:nth-child(4){animation-delay:.24s}
+/* ---------- motion ---------- */
+html.motion .hero h1 .ln>span{animation:rise .9s var(--ease) both}
+html.motion .hero h1 .l2>span{animation-delay:.12s}
+html.motion .hero .lede{animation:slidein .7s var(--ease) .25s both}
+html.motion .hero .steps li{animation:slidein .6s var(--ease) both}
+html.motion .hero .steps li:nth-child(1){animation-delay:.35s}html.motion .hero .steps li:nth-child(2){animation-delay:.42s}html.motion .hero .steps li:nth-child(3){animation-delay:.49s}
+html.motion .hero-case{animation:slidein .7s var(--ease) .15s both}
+html.motion .hero-case .item .jar img{animation:setdown .7s var(--ease) both}
+html.motion .hero-case .item:nth-child(1) .jar img{animation-delay:.45s}html.motion .hero-case .item:nth-child(2) .jar img{animation-delay:.55s}html.motion .hero-case .item:nth-child(3) .jar img{animation-delay:.65s}html.motion .hero-case .item:nth-child(4) .jar img{animation-delay:.75s}
+@keyframes rise{from{transform:translateY(105%)}}
+@keyframes setdown{0%{opacity:0;transform:translateY(-40px)}70%{opacity:1;transform:translateY(3px)}100%{transform:none}}
+html.motion .aisle .item{opacity:0;transform:translateY(34px)}
+html.motion .aisle .item.in{opacity:1;transform:none;transition:opacity .6s var(--ease) var(--d,0ms),transform .8s var(--ease) var(--d,0ms)}
+html.motion .aisle .item.in.now{transition:none}
+html.motion .aisle-head::after{transform:scaleX(0)}
+html.motion .aisle-head.in::after{transform:scaleX(1)}
+html.motion .aisle-head.in.now::after{transition:none}
+html.motion .aisle-head h2{opacity:0;transform:translateY(16px);transition:opacity .6s var(--ease),transform .7s var(--ease)}
+html.motion .aisle-head.in h2{opacity:1;transform:none}
+html.motion .aisle-head.in.now h2{transition:none}
+html.motion .receipt .rline{animation:print .45s var(--ease) both;animation-delay:calc(var(--i,0)*70ms + .15s)}
+html.motion .receipt .rsum{animation:print .45s var(--ease) both;animation-delay:calc(var(--n,0)*70ms + .25s)}
+html.motion #view.quiet .receipt .rline,html.motion #view.quiet .receipt .rsum,html.motion #view.quiet .pdp-in>*{animation:none}
+@keyframes print{from{opacity:0;transform:translateY(-10px);clip-path:inset(0 0 100% 0)}to{clip-path:inset(0 0 -10% 0)}}
+html.motion .deliver{animation:slidein .7s var(--ease) .1s both}
+html.motion #view.quiet .deliver{animation:none}
+.bump{animation:bump .45s var(--ease)}
+@keyframes bump{30%{transform:scale(1.12)}}
+
+/* page-to-page transitions */
+@keyframes vt-out{to{opacity:0;transform:translateY(-14px)}}
+@keyframes vt-in{from{opacity:0;transform:translateY(22px)}}
+::view-transition-old(root){animation:.28s var(--ease) both vt-out}
+::view-transition-new(root){animation:.5s var(--ease) .08s both vt-in}
+::view-transition-group(top){animation:none}
+::view-transition-old(top),::view-transition-new(top){animation:none}
+::view-transition-group(jar){animation-duration:.65s;animation-timing-function:var(--ease)}
+::view-transition-old(jar),::view-transition-new(jar){height:100%;object-fit:contain;mix-blend-mode:multiply}
 
 /* ---------- responsive ---------- */
-@media (max-width:1020px){
+@media (max-width:1060px){
   .hero,.pdp,.checkout{grid-template-columns:minmax(0,1fr)}
   .hero{align-items:start}
 }
 @media (max-width:720px){
-  html{scroll-padding-top:160px}
-  .top-in{height:60px;gap:10px;flex-wrap:wrap}
-  .logo img{height:28px}
-  .top-act{margin-inline-start:auto}
-  .basket{height:40px;padding-inline:12px 6px}
+  html{scroll-padding-top:170px}
+  .top-in{grid-template-columns:auto 1fr;height:auto;padding-top:12px;row-gap:12px;column-gap:12px}
+  .logo img{height:30px}
+  .top-act{justify-self:end;height:42px;gap:16px;grid-row:1;grid-column:2}
+  .basket{padding-inline:12px 0}
   .basket .lbl{display:none}
-  .lang{height:36px;padding-inline:12px}
-  .search{order:3;flex-basis:100%;max-width:none;height:42px;margin:0 0 10px}
-  .top-in{height:auto;padding-top:10px}
-  .rail{padding-bottom:10px}
-  .rail a{height:34px;font-size:.85rem;padding-inline:12px}
-  .hero{padding-top:22px}
+  .basket b{min-width:40px}
+  .search{grid-column:1/-1;grid-row:2;max-width:none;height:44px}
+  .aisle-head h2{font-size:1.55rem;gap:12px}
+  .aisle-head h2 .alt{font-size:.6em}
+  .rail-in{gap:22px}
+  .rail a{height:44px;font-size:.88rem}
+  .hero{padding-top:28px}
   .lede{font-size:.98rem}
-  .steps{margin-top:20px}
-  .hero-shelf .shelf{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .shelf{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:26px}
-  .tag{margin:0 6px;padding:14px 11px 10px}
-  .tag h3{font-size:.92rem}
+  .hero-case{padding:16px 16px 0}
+  .hero-case .shelf{grid-template-columns:repeat(2,minmax(0,1fr));margin-inline:-16px}
+  .shelf{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:28px}
+  .tag{margin:0 6px;padding:15px 11px 11px}
+  .tag h3{font-size:.93rem}
   .tag .alt{font-size:.78rem}
+  .tag-foot{flex-direction:column;align-items:stretch;gap:10px}
+  .tag-foot .ctl{align-self:flex-end}
   .price{font-size:1rem}
-  .price.tbc{font-size:.72rem;line-height:1.25}
-  .tag-foot{flex-direction:column;align-items:stretch;gap:8px}
-  .tag-foot .plus,.tag-foot .step{align-self:flex-end}
-  .plus{width:34px;height:34px}
-  .aisle{padding-top:34px}
-  .aisle-head{padding-bottom:12px}
-  .receipt{padding:22px 18px 30px}
-  .deliver{padding:20px}
-  .orderbar{position:fixed;z-index:45;inset-inline:12px;bottom:calc(12px + env(safe-area-inset-bottom));display:flex;align-items:center;justify-content:space-between;gap:12px;height:56px;padding-inline:20px 8px;border-radius:999px;background:var(--red);color:#fff;font-weight:600;box-shadow:0 10px 30px rgba(158,13,29,.35);transform:translateY(0);transition:transform .25s}
-  html[dir=rtl] .orderbar{padding-inline:20px 8px}
-  .orderbar.off{transform:translateY(140%)}
-  .orderbar b{height:40px;padding-inline:16px;border-radius:999px;background:#fff;color:var(--red);display:grid;place-items:center;font-variant-numeric:tabular-nums}
-  body.has-bar{padding-bottom:84px}
+  .price.tbc{font-size:.74rem}
+  .aisle{padding-top:44px}
+  .aisle-head{margin-bottom:16px;padding-bottom:14px}
+  .qty{grid-template-columns:32px minmax(30px,auto) 32px;height:38px}
+  .receipt{padding:24px 18px 32px}
+  .deliver{padding:22px 18px}
+  .orderbar{position:fixed;z-index:45;inset-inline:0;bottom:0;display:flex;align-items:stretch;justify-content:space-between;height:calc(62px + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom);background:var(--red);color:#fff;font-weight:600;transform:translateY(0);transition:transform .45s var(--ease);view-transition-name:bar}
+  .orderbar span{display:flex;align-items:center;padding-inline:20px}
+  .orderbar b{display:flex;align-items:center;gap:10px;padding-inline:20px;background:var(--ink);font-variant-numeric:tabular-nums}
+  .orderbar.off{transform:translateY(110%)}
+  body.has-bar{padding-bottom:62px}
   .toast{bottom:84px}
 }
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
@@ -258,10 +324,10 @@ footer{margin-top:56px;background:var(--ink);color:#E9E1D6}
     <label class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="search" id="q" autocomplete="off"></label>
     <div class="top-act">
       <button class="lang" id="langBtn">عربي</button>
-      <a class="basket" href="#/cart"><svg viewBox="0 0 24 24"><path d="M5 9h14l-1.3 10.2a2 2 0 0 1-2 1.8H8.3a2 2 0 0 1-2-1.8z"/><path d="M9 9V7a3 3 0 0 1 6 0v2"/></svg><span class="lbl" data-i="basket">Basket</span><b data-count>0</b></a>
+      <a class="basket" id="basket" href="#/cart"><svg viewBox="0 0 24 24"><path d="M5 9h14l-1.3 10.2a2 2 0 0 1-2 1.8H8.3a2 2 0 0 1-2-1.8z"/><path d="M9 9V7a3 3 0 0 1 6 0v2"/></svg><span class="lbl" data-i="basket">Basket</span><b data-count>0</b></a>
     </div>
   </div>
-  <nav class="wrap rail" id="rail" aria-label="Categories"></nav>
+  <nav class="wrap rail" id="rail" aria-label="Categories"><div class="rail-in" id="railIn"></div></nav>
 </header>
 
 <main id="view" aria-live="polite"></main>
@@ -270,7 +336,7 @@ footer{margin-top:56px;background:var(--ink);color:#E9E1D6}
   <div class="wrap foot-in">
     <img src="logo-red.png" alt="ådirá">
     <p data-i="footer">Questions about an order? We answer on WhatsApp.</p>
-    <a class="wa" data-wa href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.8 14.1c-.25.7-1.44 1.34-1.98 1.39-.5.05-1.13.07-1.83-.15-.42-.13-.96-.31-1.65-.61-2.9-1.25-4.79-4.17-4.93-4.36-.14-.19-1.18-1.57-1.18-3s.75-2.13 1.02-2.42c.26-.29.57-.36.76-.36h.55c.18 0 .42-.07.65.5.25.6.84 2.05.91 2.2.07.14.12.31.02.5-.1.19-.14.31-.29.48-.14.17-.3.38-.43.51-.14.14-.29.3-.12.58.17.29.75 1.24 1.61 2.01 1.1.98 2.03 1.29 2.32 1.43.29.14.46.12.63-.07.17-.19.72-.84.91-1.13.19-.29.38-.24.65-.14.26.1 1.67.79 1.96.93.29.14.48.22.55.34.07.12.07.7-.18 1.4z"/></svg><span data-i="msgUs">Message us</span></a>
+    <a class="wa" data-wa href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.8 14.1c-.25.7-1.44 1.34-1.98 1.39-.5.05-1.13.07-1.83-.15-.42-.13-.96-.31-1.650-.61-2.9-1.25-4.79-4.17-4.93-4.36-.14-.19-1.18-1.57-1.18-3s.75-2.13 1.02-2.42c.26-.29.57-.36.76-.36h.55c.18 0 .42-.07.65.5.25.6.84 2.05.91 2.2.07.14.12.31.02.5-.1.19-.14.31-.29.48-.14.17-.3.38-.43.51-.14.14-.29.3-.12.58.17.29.75 1.24 1.61 2.01 1.1.98 2.03 1.29 2.32 1.43.29.14.46.12.63-.07.17-.19.72-.84.91-1.13.19-.29.38-.24.65-.14.26.1 1.67.79 1.96.93.29.14.48.22.55.34.07.12.07.7-.18 1.4z"/></svg><span data-i="msgUs">Message us</span></a>
   </div>
 </footer>
 
@@ -292,7 +358,7 @@ const T = {
   h1a:"Mouneh, jar by jar.",h1b:"مونة، برطمان ببرطمان",
   lede:"Jams, pickles, sauces and pantry staples made the Lebanese way. Fill your basket and send the order on WhatsApp. We confirm delivery with you there.",
   s1:"Pick your jars",s2:"Add delivery details",s3:"Send the order on WhatsApp",
-  onShelf:"Most ordered",seeAll:"See all shelves",jars:"jars",jar:"jar",all:"All",results:"Search results",
+  onShelf:"Most ordered",seeAll:"All shelves ↓",jars:"jars",jar:"jar",results:"Search results",
   noResults:"Nothing on the shelves matches that.",noResultsHint:"Try another word, like “jam” or “labneh”.",clear:"Clear search",
   soldOut:"Sold out",add:"Add to basket",size:"Size",back:"Back to the shelves",notFound:"This product isn't on the shelves anymore.",moreFrom:"More from this shelf",
   yourOrder:"Your order",emptyCart:"Your basket is empty",emptyHint:"Add a few jars from the shelves, then come back here to send the order.",browse:"Browse the shelves",remove:"Remove",
@@ -307,7 +373,7 @@ const T = {
   h1a:"مونة، برطمان ببرطمان.",h1b:"Mouneh, jar by jar.",
   lede:"مربيات ومخللات وصلصات ومونة محضّرة على الطريقة اللبنانية. املأ سلتك وأرسل الطلب عبر واتساب، ونؤكّد معك التوصيل هناك.",
   s1:"اختر منتجاتك",s2:"أضف معلومات التوصيل",s3:"أرسل الطلب عبر واتساب",
-  onShelf:"الأكثر طلباً",seeAll:"كل الرفوف",jars:"منتجات",jar:"منتج",all:"الكل",results:"نتائج البحث",
+  onShelf:"الأكثر طلباً",seeAll:"كل الرفوف ↓",jars:"منتجات",jar:"منتج",results:"نتائج البحث",
   noResults:"لا شيء على الرفوف يطابق بحثك.",noResultsHint:"جرّب كلمة أخرى، مثل «مربى» أو «لبنة».",clear:"مسح البحث",
   soldOut:"نفذت الكمية",add:"أضف إلى السلة",size:"الحجم",back:"العودة إلى الرفوف",notFound:"هذا المنتج لم يعد على الرفوف.",moreFrom:"المزيد من هذا الرف",
   yourOrder:"طلبك",emptyCart:"سلتك فارغة",emptyHint:"أضف بعض المنتجات من الرفوف، ثم ارجع هنا لإرسال الطلب.",browse:"تصفّح الرفوف",remove:"حذف",
@@ -369,18 +435,22 @@ const FALLBACK_CSV = `id,category,category_ar,name,name_ar,unit,unit_ar,price,de
 
 /* ---------- state ---------- */
 const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const MOTION = !matchMedia("(prefers-reduced-motion: reduce)").matches;
+if(MOTION) document.documentElement.classList.add("motion");
 const store = { get(k,d){ try{ const v=localStorage.getItem(k); return v?JSON.parse(v):d; }catch(e){ return d; } },
                 set(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} } };
 let lang = store.get("adira_lang", (navigator.language||"").startsWith("ar")?"ar":"en");
 let cart = store.get("adira_cart", {}) || {};
 let draft = store.get("adira_draft", {}) || {};
-let products=[], query="", detailQty=1, current={name:"home"};
+let products=[], query="", detailQty=1, current={name:"home"}, lastDetail=null;
 
 const t = k => T[lang][k] ?? k;
 const other = () => lang==="ar"?"en":"ar";
+const otherAttr = () => `lang="${other()}" dir="${other()==="ar"?"rtl":"ltr"}"`;
 const money = n => CURRENCY + Number(n).toFixed(2);
 const L = (p,f) => (lang==="ar" && p[f+"_ar"]) ? p[f+"_ar"] : (p[f]||"");
-const Lo = (p,f) => (lang==="ar" ? (p[f]||"") : (p[f+"_ar"]||""));   // the name in the other language, as printed on the jar
+const Lo = (p,f) => (lang==="ar" ? (p[f]||"") : (p[f+"_ar"]||""));
 const esc = s => String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const slug = s => String(s).toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
 
@@ -423,14 +493,14 @@ async function loadProducts(){
 }
 function categories(){ const m=new Map(); products.forEach(p=>{ if(!m.has(p.category)) m.set(p.category,{en:p.category,ar:p.category_ar||p.category,color:CAT_COLORS[m.size%CAT_COLORS.length]}); }); return [...m.values()]; }
 const catOf = c => categories().find(x=>x.en===c) || {en:c,ar:c,color:"#CE1126"};
-const catName = (c,l=lang) => l==="ar"?catOf(c).ar:catOf(c).en;
+const catName = c => lang==="ar"?catOf(c).ar:catOf(c).en;
 
 /* ---------- pictures ---------- */
 function jarSVG(seed,color){
   let h=0; for(const c of String(seed)) h=(h*31+c.charCodeAt(0))>>>0;
   const fills=["#E07A2F","#C8322B","#D9A13B","#8BA64A","#9C3B2E","#E5B85C","#7A2E3B"]; const fill=fills[h%fills.length];
   return `<svg viewBox="0 0 200 200" aria-hidden="true"><rect width="200" height="200" fill="#fff"/>
-   <g transform="translate(62 38)"><rect x="8" y="0" width="60" height="16" rx="4" fill="#fff" stroke="#E4D9CB" stroke-width="2"/>
+   <g transform="translate(62 38)"><rect x="8" y="0" width="60" height="16" fill="#fff" stroke="#E4D9CB" stroke-width="2"/>
    <path d="M4 18h68v6c4 4 6 8 6 14v76c0 7-5 12-12 12H10c-7 0-12-5-12-12V38c0-6 2-10 6-14z" fill="${fill}"/>
    <rect x="-2" y="58" width="80" height="40" fill="#F8F2E9"/><rect x="-2" y="58" width="80" height="5" fill="${color}"/>
    <text x="38" y="86" text-anchor="middle" font-family="Arial" font-weight="800" font-size="16" fill="${color}">ådirá</text></g></svg>`;
@@ -440,37 +510,39 @@ function imgFail(img){
   if(!img.dataset.retried && src.includes("/")){ img.dataset.retried="1"; img.src=src.split("/").pop(); return; }
   const s=document.createElement("span"); s.innerHTML=jarSVG(img.dataset.seed,img.dataset.color); img.replaceWith(s.firstElementChild);
 }
-const picHTML = (p,eager) => p.image
-  ? `<img src="${esc(p.image)}" alt="${esc(L(p,"name"))}" ${eager?"":'loading="lazy"'} data-seed="${esc(p.name)}" data-color="${catOf(p.category).color}" onerror="imgFail(this)">`
+const picHTML = (p,opts={}) => p.image
+  ? `<img src="${esc(p.image)}" alt="${esc(L(p,"name"))}" ${opts.eager?"":'loading="lazy"'} ${opts.vt?'style="view-transition-name:jar"':""} data-seed="${esc(p.name)}" data-color="${catOf(p.category).color}" onerror="imgFail(this)">`
   : jarSVG(p.name,catOf(p.category).color);
 
 /* ---------- icons ---------- */
 const I = {
   plus:'<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>',
-  back:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>',
+  back:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square"><path d="M15 18l-6-6 6-6"/></svg>',
   wa:$(".wa svg").outerHTML
 };
 
-/* ---------- the shelf item: jar on a plank + tag ---------- */
-const priceHTML = (p,n=1) => p.price==null ? `<span class="price tbc">${t("askPrice")}</span>` : `<span class="price">${money(p.price*n)}</span>`;
-function control(p){
+/* ---------- shelf item: jar on a plank + tag ---------- */
+const priceHTML = p => p.price==null ? `<span class="price tbc">${t("askPrice")}</span>` : `<span class="price">${money(p.price)}</span>`;
+function control(p,fresh){
   const n=cart[p.id]||0;
-  if(!p.available) return `<button class="plus" disabled aria-label="${t("soldOut")}">${I.plus}</button>`;
-  if(n) return `<div class="step"><button data-dec="${esc(p.id)}" aria-label="−">−</button><span>${n}</span><button data-inc="${esc(p.id)}" aria-label="+">+</button></div>`;
-  return `<button class="plus" data-inc="${esc(p.id)}" aria-label="${t("add")}: ${esc(L(p,"name"))}">${I.plus}</button>`;
+  let inner;
+  if(!p.available) inner=`<button class="add" disabled aria-label="${t("soldOut")}">${I.plus}</button>`;
+  else if(n) inner=`<div class="qty${fresh?" fresh":""}"><button data-dec="${esc(p.id)}" aria-label="−">−</button><span>${n}</span><button data-inc="${esc(p.id)}" aria-label="+">+</button></div>`;
+  else inner=`<button class="add" data-inc="${esc(p.id)}" aria-label="${t("add")}: ${esc(L(p,"name"))}">${I.plus}</button>`;
+  return `<span class="ctl" data-ctl="${esc(p.id)}">${inner}</span>`;
 }
-function item(p,eager){
+function item(p,opts={}){
   const href=`#/p/${encodeURIComponent(p.id)}`, badge=L(p,"badge"), c=catOf(p.category).color;
-  const tag = !p.available ? `<span class="badge" style="--c:#6B625B">${t("soldOut")}</span>` : badge ? `<span class="badge" style="--c:${c}">${esc(badge)}</span>` : "";
-  return `<article class="item${p.available?"":" out"}">
-    <a class="jar" href="${href}">${picHTML(p,eager)}${tag}</a>
+  const lab = !p.available ? `<span class="label" style="--c:#6B625B">${t("soldOut")}</span>` : badge ? `<span class="label" style="--c:${c}">${esc(badge)}</span>` : "";
+  return `<article class="item${p.available?"":" out"}" data-id="${esc(p.id)}">
+    <a class="jar" href="${href}">${picHTML(p,{eager:opts.eager,vt:opts.vt&&p.id===lastDetail})}${lab}</a>
     <div class="tag">
-      <a href="${href}"><h3>${esc(L(p,"name"))}</h3><p class="alt" lang="${other()}" dir="${other()==="ar"?"rtl":"ltr"}">${esc(Lo(p,"name"))}</p></a>
+      <a href="${href}"><h3>${esc(L(p,"name"))}</h3><p class="alt" ${otherAttr()}>${esc(Lo(p,"name"))}</p></a>
       <p class="unit">${esc(L(p,"unit"))}</p>
       <div class="tag-foot">${priceHTML(p)}${control(p)}</div>
     </div></article>`;
 }
-const shelf = (list,eager) => `<div class="shelf">${list.map(p=>item(p,eager)).join("")}</div>`;
+const shelf = (list,opts) => `<div class="shelf">${list.map(p=>item(p,opts)).join("")}</div>`;
 const count = n => `${n} ${n===1?t("jar"):t("jars")}`;
 
 /* ---------- views ---------- */
@@ -482,43 +554,45 @@ function viewHome(){
   if(query.trim()){
     const list=matches();
     return `<section class="wrap aisle"><div class="aisle-head"><h2>${t("results")}</h2><span class="count">${count(list.length)}</span></div>
-      ${list.length?shelf(list):`<div class="empty"><strong>${t("noResults")}</strong>${t("noResultsHint")}<br><button class="btn ghost" data-clear style="margin-top:18px">${t("clear")}</button></div>`}</section>`;
+      ${list.length?shelf(list,{vt:true}):`<div class="empty"><strong>${t("noResults")}</strong>${t("noResultsHint")}<br><button class="btn ghost" data-clear style="margin-top:20px"><span>${t("clear")}</span></button></div>`}</section>`;
   }
   let pop=products.filter(p=>p.popular&&p.available); if(pop.length<4) pop=pop.concat(products.filter(p=>p.available&&!pop.includes(p))).slice(0,4);
+  const first=categories()[0];
   return `<section class="wrap hero">
     <div>
-      <h1><span class="l1">${t("h1a")}</span><span class="l2" lang="${other()}" dir="${other()==="ar"?"rtl":"ltr"}">${t("h1b")}</span></h1>
+      <h1><span class="ln l1"><span>${t("h1a")}</span></span><span class="ln l2"><span ${otherAttr()}>${t("h1b")}</span></span></h1>
       <p class="lede">${t("lede")}</p>
-      <ol class="steps"><li>${t("s1")}</li><li>${t("s2")}</li><li>${t("s3")}</li></ol>
+      <ol class="steps"><li><span>${t("s1")}</span></li><li><span>${t("s2")}</span></li><li><span>${t("s3")}</span></li></ol>
     </div>
-    <div class="hero-shelf"><div class="shelf-label"><strong>${t("onShelf")}</strong><a href="#${"aisle-"+slug(categories()[0]?.en||"")}">${t("seeAll")} ↓</a></div>${shelf(pop.slice(0,4),true)}</div>
+    <div class="hero-case"><div class="hero-case-head"><strong>${t("onShelf")}</strong>${first?`<a href="#aisle-${slug(first.en)}">${t("seeAll")}</a>`:""}</div>${shelf(pop.slice(0,4),{eager:true})}</div>
   </section>
   ${categories().map(c=>{ const list=products.filter(p=>p.category===c.en);
     return `<section class="wrap aisle" id="aisle-${slug(c.en)}">
-      <div class="aisle-head"><h2><i class="dia" style="--c:${c.color}"></i><span>${esc(lang==="ar"?c.ar:c.en)}</span><span class="alt" lang="${other()}" dir="${other()==="ar"?"rtl":"ltr"}">${esc(lang==="ar"?c.en:c.ar)}</span></h2><span class="count">${count(list.length)}</span></div>
-      ${shelf(list)}</section>`; }).join("")}`;
+      <div class="aisle-head"><h2><i class="dia" style="--c:${c.color}"></i><span>${esc(lang==="ar"?c.ar:c.en)}</span><span class="alt" ${otherAttr()}>${esc(lang==="ar"?c.en:c.ar)}</span></h2><span class="count">${count(list.length)}</span></div>
+      ${shelf(list,{vt:true})}</section>`; }).join("")}`;
 }
 function viewDetail(id){
   const p=products.find(x=>x.id===id);
-  if(!p) return `<div class="wrap empty"><strong>${t("notFound")}</strong><a class="btn" href="#/" style="margin-top:18px">${t("browse")}</a></div>`;
+  if(!p) return `<div class="wrap empty"><strong>${t("notFound")}</strong><a class="btn" href="#/" style="margin-top:20px"><span>${t("browse")}</span></a></div>`;
+  lastDetail=p.id;
   const sizes=products.filter(x=>x.name===p.name), c=catOf(p.category);
   const more=products.filter(x=>x.category===p.category&&x.name!==p.name&&x.available).slice(0,5);
   const desc = lang==="ar" ? (p.details_ar||p.description_ar||p.details||p.description) : (p.details||p.description);
   return `<div class="wrap"><a class="back" href="#aisle-${slug(p.category)}">${I.back}${t("back")}</a>
   <section class="pdp">
-    <div class="jar">${picHTML(p,true)}</div>
-    <div>
+    <div class="jar">${picHTML(p,{eager:true,vt:true})}</div>
+    <div class="pdp-in">
       <p class="crumb"><i class="dia" style="--c:${c.color}"></i>${esc(catName(p.category))}</p>
       <h1>${esc(L(p,"name"))}</h1>
-      <p class="name-alt" lang="${other()}" dir="${other()==="ar"?"rtl":"ltr"}">${esc(Lo(p,"name"))}</p>
+      <p class="name-alt" ${otherAttr()}>${esc(Lo(p,"name"))}</p>
       ${p.price==null?`<span class="price tbc">${t("askPrice")}</span>`:`<span class="price">${money(p.price)}</span>`}
-      ${sizes.length>1?`<div class="sizes" aria-label="${t("size")}">${sizes.map(x=>`<a href="#/p/${encodeURIComponent(x.id)}" aria-current="${x.id===p.id}">${esc(L(x,"unit"))}</a>`).join("")}</div>`:`<div class="sizes"><a aria-current="true">${esc(L(p,"unit"))}</a></div>`}
+      <div><p class="opt-label">${t("size")}</p><div class="sizes">${sizes.map(x=>`<a href="#/p/${encodeURIComponent(x.id)}" aria-current="${x.id===p.id}">${esc(L(x,"unit"))}</a>`).join("")}</div></div>
       <p class="desc">${esc(desc)}</p>
-      ${p.available?`<div class="buy"><div class="step lg"><button data-dq="-1" aria-label="−">−</button><span id="dq">${detailQty}</span><button data-dq="1" aria-label="+">+</button></div>
-        <button class="btn" data-addn="${esc(p.id)}">${t("add")}</button></div>`:`<p class="soldout-note">${t("soldOut")}</p>`}
+      ${p.available?`<div class="buy"><div class="qty lg"><button data-dq="-1" aria-label="−">−</button><span id="dq">${detailQty}</span><button data-dq="1" aria-label="+">+</button></div>
+        <button class="btn" data-addn="${esc(p.id)}"><span>${t("add")}</span></button></div>`:`<p class="soldout-note">${t("soldOut")}</p>`}
     </div>
   </section></div>
-  ${more.length?`<section class="wrap aisle more"><div class="aisle-head"><h2><i class="dia" style="--c:${c.color}"></i>${t("moreFrom")}</h2><span class="count">${esc(catName(p.category))}</span></div>${shelf(more)}</section>`:""}`;
+  ${more.length?`<section class="wrap aisle"><div class="aisle-head"><h2><i class="dia" style="--c:${c.color}"></i>${t("moreFrom")}</h2><span class="count">${esc(catName(p.category))}</span></div>${shelf(more)}</section>`:""}`;
 }
 const cartItems = () => Object.entries(cart).map(([id,n])=>({p:products.find(x=>x.id===id),n})).filter(x=>x.p);
 const subtotal = () => cartItems().reduce((s,{p,n})=>s+(p.price||0)*n,0);
@@ -529,23 +603,23 @@ const totalText = msg => allTbc() ? (msg?t("mTbc"):t("onWa")) : money(subtotal()
 const lineText = (p,n) => p.price==null ? t("mPriceTbc") : money(p.price*n);
 function viewCart(){
   const list=cartItems();
-  if(!list.length) return `<div class="wrap empty" style="padding-block:90px"><strong>${t("emptyCart")}</strong>${t("emptyHint")}<br><a class="btn" href="#/" style="margin-top:22px">${t("browse")}</a></div>`;
+  if(!list.length) return `<div class="wrap empty" style="padding-block:100px"><strong>${t("emptyCart")}</strong>${t("emptyHint")}<br><a class="btn" href="#/" style="margin-top:24px"><span>${t("browse")}</span></a></div>`;
   const date=new Date().toLocaleDateString(lang==="ar"?"ar-LB":"en-GB",{day:"numeric",month:"long",year:"numeric"});
   return `<div class="wrap checkout">
   <section>
     <h1>${t("yourOrder")}</h1>
     <div class="receipt">
       <div class="receipt-head"><img src="logo-red.png" alt="ådirá"><span>${date}</span></div>
-      ${list.map(({p,n})=>`<div class="rline">
+      ${list.map(({p,n},i)=>`<div class="rline" style="--i:${i}">
         <span class="q">${n}×</span>
         <div class="n"><strong>${esc(L(p,"name"))}</strong><small>${esc(L(p,"unit"))}</small></div>
         <span class="p${p.price==null?" tbc":""}">${p.price==null?t("askPrice"):money(p.price*n)}</span>
-        <div class="ctl"><div class="step"><button data-dec="${esc(p.id)}" aria-label="−">−</button><span>${n}</span><button data-inc="${esc(p.id)}" aria-label="+">+</button></div><button class="rm" data-rm="${esc(p.id)}">${t("remove")}</button></div>
+        <div class="ctl"><div class="qty"><button data-dec="${esc(p.id)}" aria-label="−">−</button><span>${n}</span><button data-inc="${esc(p.id)}" aria-label="+">+</button></div><button class="rm" data-rm="${esc(p.id)}">${t("remove")}</button></div>
       </div>`).join("")}
-      <div class="rsum">
-        <div><span>${t("subtotal")}</span><span class="num">${allTbc()?t("onWa"):money(subtotal())}</span></div>
-        <div><span>${t("delivery")}</span><span class="num">${fee()==null?t("onWa"):money(fee())}</span></div>
-        <div class="total"><span>${t("total")}</span><span class="num">${totalText()}</span></div>
+      <div class="rsum" style="--n:${list.length}">
+        <div><span>${t("subtotal")}</span><span>${allTbc()?t("onWa"):money(subtotal())}</span></div>
+        <div><span>${t("delivery")}</span><span>${fee()==null?t("onWa"):money(fee())}</span></div>
+        <div class="total"><span>${t("total")}</span><span>${totalText()}</span></div>
       </div>
       ${hasTbc()?`<p class="rnote">${t("someTbc")}</p>`:""}
     </div>
@@ -564,7 +638,7 @@ function viewCart(){
   </section></div>`;
 }
 
-/* ---------- router ---------- */
+/* ---------- router + transitions ---------- */
 function route(){
   const h=location.hash;
   if(h.startsWith("#aisle-")) return {name:"home",anchor:h.slice(1)};
@@ -574,59 +648,114 @@ function route(){
   if(parts[0]==="shop" && parts[1]) return {name:"home",anchor:"aisle-"+slug(parts[1])};
   return {name:"home"};
 }
+function transition(fn){
+  if(MOTION && document.startViewTransition){ return document.startViewTransition(fn); }
+  fn();
+  if(MOTION) $("#view").animate([{opacity:0,transform:"translateY(16px)"},{opacity:1,transform:"none"}],{duration:420,easing:"cubic-bezier(.2,.8,.2,1)"});
+}
 function render(opts={}){
   saveDraft();
-  const prev=current; current=route();
+  current=route();
   const caret = opts.keepSearch && $("#q") ? $("#q").selectionStart : null;
-  $("#view").innerHTML = current.name==="detail"?viewDetail(current.id): current.name==="cart"?viewCart(): viewHome();
+  const view=$("#view");
+  view.classList.toggle("quiet",!!opts.quiet);
+  view.innerHTML = current.name==="detail"?viewDetail(current.id): current.name==="cart"?viewCart(): viewHome();
   fillDraft(); renderRail(); updateCount();
   if(opts.keepSearch){ const q=$("#q"); q.focus(); if(caret!=null) q.setSelectionRange(caret,caret); }
+  reveal(!!opts.instant);
   if(opts.scroll!==false){
-    if(current.anchor){ const el=document.getElementById(current.anchor); if(el) el.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion:reduce)").matches?"auto":"smooth"}); }
-    else if(prev.name!==current.name || current.name!=="home") window.scrollTo(0,0);
+    const target = current.anchor ? document.getElementById(current.anchor) : null;
+    if(target) target.scrollIntoView(); else window.scrollTo(0,0);
   }
 }
+/* jars rise onto the shelves as they scroll into view */
+let revealObs;
+function reveal(instant){
+  if(!MOTION) return;
+  if(revealObs) revealObs.disconnect();
+  const els=$$("#view .aisle .item, #view .aisle-head");
+  if(instant || !("IntersectionObserver" in window)){ els.forEach(el=>el.classList.add("in","now")); return; }
+  $$("#view .aisle .shelf").forEach(s=>{ const cols=getComputedStyle(s).gridTemplateColumns.split(" ").length||1; [...s.children].forEach((el,i)=>el.style.setProperty("--d",(i%cols)*80+"ms")); });
+  revealObs=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("in"); revealObs.unobserve(e.target); } }),{rootMargin:"0px 0px -6% 0px"});
+  els.forEach(el=>revealObs.observe(el));
+}
 function renderRail(){
-  const onHome=current.name==="home" && !query.trim();
-  $("#rail").innerHTML = categories().map(c=>`<a href="#aisle-${slug(c.en)}" data-aisle="aisle-${slug(c.en)}"><i class="dia" style="--c:${c.color}"></i>${esc(lang==="ar"?c.ar:c.en)}</a>`).join("");
+  $("#railIn").innerHTML = categories().map(c=>`<a href="#aisle-${slug(c.en)}" data-aisle="aisle-${slug(c.en)}"><i class="dia" style="--c:${c.color}"></i>${esc(lang==="ar"?c.ar:c.en)}</a>`).join("")+`<span class="rail-ind" id="railInd"></span>`;
   $("#rail").classList.toggle("hidden", !products.length);
-  if(onHome) spy();
+  const detailCat = current.name==="detail" ? products.find(p=>p.id===current.id)?.category : null;
+  if(detailCat) markRail("aisle-"+slug(detailCat));
+  spy();
+}
+function markRail(id){
+  let hit=null;
+  $$("#railIn a").forEach(a=>{ const on=a.dataset.aisle===id; a.setAttribute("aria-current",on); if(on) hit=a; });
+  const ind=$("#railInd"); if(!ind) return;
+  if(hit){ ind.style.left=hit.offsetLeft+"px"; ind.style.width=hit.offsetWidth+"px"; ind.style.opacity=1;
+    const r=$("#rail"); if(lang!=="ar" && r.scrollWidth>r.clientWidth) r.scrollTo({left:hit.offsetLeft-r.clientWidth/2+hit.offsetWidth/2,behavior:MOTION?"smooth":"auto"}); }
+  else ind.style.opacity=0;
 }
 let spyObs;
 function spy(){
   if(spyObs) spyObs.disconnect();
-  if(!("IntersectionObserver" in window)) return;
-  spyObs=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting){ document.querySelectorAll("#rail a").forEach(a=>a.setAttribute("aria-current",a.dataset.aisle===e.target.id)); } }); },{rootMargin:"-45% 0px -50% 0px"});
-  document.querySelectorAll(".aisle[id]").forEach(s=>spyObs.observe(s));
+  if(current.name!=="home" || query.trim() || !("IntersectionObserver" in window)) return;
+  spyObs=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting) markRail(e.target.id); }),{rootMargin:"-40% 0px -55% 0px"});
+  $$(".aisle[id]").forEach(s=>spyObs.observe(s));
+  const hero=$(".hero"); if(hero){ new IntersectionObserver((es,o)=>es.forEach(e=>{ if(e.isIntersecting) markRail(null); }),{rootMargin:"-40% 0px -55% 0px"}).observe(hero); }
 }
-function updateCount(){
+function updateCount(bump){
   const n=Object.values(cart).reduce((a,b)=>a+b,0);
-  document.querySelectorAll("[data-count]").forEach(el=>el.textContent=n);
+  $$("[data-count]").forEach(el=>el.textContent=n);
   const bar=$("#orderbar"), show=n>0 && current.name!=="cart";
   bar.classList.toggle("off",!show); document.body.classList.toggle("has-bar",show);
   $("#orderbarTxt").textContent=`${t("viewOrder")} · ${count(n)}`;
-  $("#orderbarTotal").textContent = allTbc()?"→":totalText();
+  $("#orderbarTotal").textContent = allTbc()?"→":totalText()+"  →";
+  if(bump && MOTION){ [$("#basket"),bar].forEach(el=>{ el.classList.remove("bump"); void el.offsetWidth; el.classList.add("bump"); }); }
+}
+
+/* ---------- a jar flies into the basket ---------- */
+function fly(fromJar){
+  if(!MOTION || !fromJar) return Promise.resolve();
+  const src=fromJar.querySelector("img,svg"); if(!src) return Promise.resolve();
+  const bar=$("#orderbar"), mobile=innerWidth<=720;
+  const target = mobile && !bar.classList.contains("off") ? bar.querySelector("b") : $("#basket");
+  const a=src.getBoundingClientRect(), b=target.getBoundingClientRect();
+  const size=Math.min(a.width,a.height)*.8;
+  const clone=src.cloneNode(true); clone.removeAttribute("style"); clone.className="flyer";
+  Object.assign(clone.style,{left:(a.left+a.width/2-size/2)+"px",top:(a.top+a.height/2-size/2)+"px",width:size+"px",height:size+"px"});
+  document.body.appendChild(clone);
+  const dx=(b.left+b.width/2)-(a.left+a.width/2), dy=(b.top+b.height/2)-(a.top+a.height/2);
+  const anim=clone.animate([
+    {transform:"translate(0,0) scale(1) rotate(0)",opacity:1},
+    {transform:`translate(${dx*.45}px,${dy*.45-90}px) scale(.55) rotate(-8deg)`,opacity:1,offset:.45},
+    {transform:`translate(${dx}px,${dy}px) scale(.1) rotate(4deg)`,opacity:.2}
+  ],{duration:720,easing:"cubic-bezier(.45,0,.25,1)"});
+  return anim.finished.then(()=>clone.remove());
 }
 
 /* ---------- basket actions ---------- */
-function setQty(id,n,msg){
+function setQty(id,n,opts={}){
   const p=products.find(x=>x.id===id); if(!p||!p.available) return;
   const before=cart[id]||0; n=Math.max(0,Math.min(99,n));
   if(n) cart[id]=n; else delete cart[id];
   store.set("adira_cart",cart);
-  if(msg) toast(msg); else if(!before&&n) toast(t("added"));
-  const y=scrollY; render({scroll:false}); window.scrollTo(0,y);
+  if(current.name==="cart"){ render({scroll:false,quiet:true}); updateCount(); return; }
+  $$(`[data-ctl="${CSS.escape(id)}"]`).forEach(el=>el.outerHTML=control(p,before===0&&n>0));
+  if(n>before){
+    const done=()=>{ updateCount(true); if(opts.msg||!before) toast(opts.msg||t("added")); };
+    fly(opts.from).then(done);
+  } else updateCount();
 }
 function saveDraft(){ const f=$("#orderForm"); if(f){ draft=Object.fromEntries(new FormData(f)); store.set("adira_draft",draft); } }
 function fillDraft(){ const f=$("#orderForm"); if(!f) return; for(const [k,v] of Object.entries(draft)) if(f.elements[k]) f.elements[k].value=v; }
 function sendOrder(){
   saveDraft(); const d=draft; let ok=true;
-  document.querySelectorAll(".err").forEach(e=>e.textContent="");
+  $$(".err").forEach(e=>e.textContent="");
   const need=(k,m,test)=>{ if(!test((d[k]||"").trim())){ $(`[data-e=${k}]`).textContent=m; ok=false; } };
   need("name",t("needName"),v=>v.length>1);
   need("phone",t("needPhone"),v=>v.replace(/\D/g,"").length>=7);
   need("address",t("needAddress"),v=>v.length>2);
-  if(!ok){ document.querySelector(".err:not(:empty)").parentElement.querySelector("input").focus(); return; }
+  if(!ok){ const f=document.querySelector(".err:not(:empty)").parentElement.querySelector("input"); f.focus();
+    if(MOTION) f.animate([{transform:"translateX(0)"},{transform:"translateX(-6px)"},{transform:"translateX(6px)"},{transform:"translateX(0)"}],{duration:300}); return; }
   const pay={cod:t("cod"),whish:t("whish"),omt:t("omt")}[d.pay]||d.pay;
   const msg=[`*${t("msgHead")}*`,"",
     `${t("mName")}: ${d.name.trim()}`,`${t("mPhone")}: ${d.phone.trim()}`,`${t("mAddr")}: ${d.address.trim()}`,`${t("mPay")}: ${pay}`,"",
@@ -639,35 +768,54 @@ function sendOrder(){
 let tt; function toast(m){ const el=$("#toast"); el.textContent=m; el.classList.add("on"); clearTimeout(tt); tt=setTimeout(()=>el.classList.remove("on"),2000); }
 
 /* ---------- language ---------- */
-function applyLang(){
-  document.documentElement.lang=lang; document.documentElement.dir=lang==="ar"?"rtl":"ltr";
-  document.querySelectorAll("[data-i]").forEach(el=>el.textContent=t(el.dataset.i));
-  $("#q").placeholder=t("search"); $("#q").setAttribute("aria-label",t("search"));
-  $("#langBtn").textContent=t("lang");
-  $("#langBtn").setAttribute("aria-label",lang==="ar"?"Switch to English":"التبديل إلى العربية");
-  store.set("adira_lang",lang); render({scroll:false});
+function applyLang(first){
+  const go=()=>{
+    document.documentElement.lang=lang; document.documentElement.dir=lang==="ar"?"rtl":"ltr";
+    $$("[data-i]").forEach(el=>el.textContent=t(el.dataset.i));
+    $("#q").placeholder=t("search"); $("#q").setAttribute("aria-label",t("search"));
+    $("#langBtn").textContent=t("lang");
+    $("#langBtn").setAttribute("aria-label",lang==="ar"?"Switch to English":"التبديل إلى العربية");
+    store.set("adira_lang",lang);
+    const y=scrollY; render({scroll:!!first,instant:!first}); if(!first) window.scrollTo(0,y);
+  };
+  first ? go() : transition(go);
 }
 
 /* ---------- events ---------- */
 document.addEventListener("click",e=>{
+  const jarLink=e.target.closest("a.jar");
+  if(jarLink && MOTION && document.startViewTransition){
+    $$('[style*="view-transition-name"]').forEach(el=>el.style.viewTransitionName="");
+    const img=jarLink.querySelector("img"); if(img) img.style.viewTransitionName="jar";
+  }
   const b=e.target.closest("button"); if(!b) return;
-  if(b.dataset.inc) setQty(b.dataset.inc,(cart[b.dataset.inc]||0)+1);
+  if(b.dataset.inc){ const id=b.dataset.inc; setQty(id,(cart[id]||0)+1,{from:(cart[id]?null:b.closest(".item")?.querySelector(".jar"))}); }
   else if(b.dataset.dec) setQty(b.dataset.dec,(cart[b.dataset.dec]||0)-1);
-  else if(b.dataset.rm){ delete cart[b.dataset.rm]; store.set("adira_cart",cart); render({scroll:false}); }
+  else if(b.dataset.rm){ delete cart[b.dataset.rm]; store.set("adira_cart",cart); render({scroll:false,quiet:true}); }
   else if(b.dataset.dq){ detailQty=Math.max(1,Math.min(99,detailQty+Number(b.dataset.dq))); $("#dq").textContent=detailQty; }
-  else if(b.dataset.addn){ const id=b.dataset.addn, n=detailQty; detailQty=1; setQty(id,(cart[id]||0)+n,t("added")); }
-  else if(b.hasAttribute("data-clear")){ query=""; $("#q").value=""; render(); }
+  else if(b.dataset.addn){ const id=b.dataset.addn, n=detailQty; detailQty=1; const dq=$("#dq"); if(dq) dq.textContent=1; setQty(id,(cart[id]||0)+n,{msg:t("added"),from:$(".pdp .jar")}); }
+  else if(b.hasAttribute("data-clear")){ query=""; $("#q").value=""; transition(()=>render()); }
   else if(b.id==="sendBtn") sendOrder();
   else if(b.id==="langBtn"){ lang=lang==="en"?"ar":"en"; applyLang(); }
 });
 document.addEventListener("input",e=>{
-  if(e.target.id==="q"){ query=e.target.value; if(current.name!=="home"){ history.pushState(null,"","#/"); } render({keepSearch:true,scroll:false}); window.scrollTo(0,0); }
+  if(e.target.id==="q"){ query=e.target.value; if(current.name!=="home"){ history.pushState(null,"","#/"); } render({keepSearch:true,scroll:false,instant:true}); window.scrollTo(0,0); }
   else if(e.target.closest("#orderForm")){ const er=e.target.parentElement.querySelector(".err"); if(er) er.textContent=""; saveDraft(); }
 });
-window.addEventListener("hashchange",()=>{ detailQty=1; render(); });
-document.querySelectorAll("[data-wa]").forEach(a=>a.href=`https://wa.me/${WHATSAPP_NUMBER}`);
+window.addEventListener("hashchange",()=>{
+  const next=route();
+  detailQty=1;
+  if(current.name==="home" && next.name==="home" && !query.trim()){      /* same page: glide to the aisle */
+    current=next; const el=next.anchor?document.getElementById(next.anchor):null;
+    if(el) el.scrollIntoView({behavior:MOTION?"smooth":"auto"}); else window.scrollTo({top:0,behavior:MOTION?"smooth":"auto"});
+    return;
+  }
+  transition(()=>render());
+});
+$$("[data-wa]").forEach(a=>a.href=`https://wa.me/${WHATSAPP_NUMBER}`);
+addEventListener("resize",()=>{ const on=$("#railIn a[aria-current=true]"); if(on) markRail(on.dataset.aisle); });
 
-loadProducts().then(list=>{ products=list; for(const id of Object.keys(cart)) if(!products.some(p=>p.id===id)) delete cart[id]; applyLang(); if(route().anchor) render(); });
+loadProducts().then(list=>{ products=list; for(const id of Object.keys(cart)) if(!products.some(p=>p.id===id)) delete cart[id]; applyLang(true); });
 </script>
 </body>
 </html>
