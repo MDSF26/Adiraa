@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en" dir="ltr">
 <head>
@@ -350,7 +351,8 @@ html.motion #view.quiet .deliver{animation:none}
 const WHATSAPP_NUMBER = "96176780937";  // country code + number, digits only (no + or spaces)
 const SHEET_CSV_URL   = "https://docs.google.com/spreadsheets/d/1KiM2fH30WXdmG_YBuqhfGb60vnoc_CMINdfpCxgwQ_0/edit?usp=sharing";  // your Google Sheet link (the normal share link works)
 const CURRENCY        = "$";
-const DELIVERY_FEE    = null;           // e.g. 2 for a fixed $2 fee, or null to confirm the fee on WhatsApp
+const ORDERS_URL      = "https://script.google.com/macros/s/AKfycbwimeZhqXFvfDrbrP-Sw5epEldwzz6NxtQFBIoViApqN_JzgqYb76pAJl8FWmdRJkBq/exec";             // your Apps Script web app link (…/exec) — saves every order to the admin dashboard
+const DELIVERY_FEE    = 4;           // e.g. 2 for a fixed $2 fee, or null to confirm the fee on WhatsApp
 /* ============================================================ */
 
 const T = {
@@ -368,7 +370,7 @@ const T = {
   needName:"Enter your name.",needPhone:"Enter a phone number we can reach.",needAddress:"Enter your delivery address or area.",
   added:"Added to basket",opening:"Opening WhatsApp…",loadFail:"Couldn't reach the product sheet. Showing saved prices.",
   viewOrder:"View order",footer:"Questions about an order? We answer on WhatsApp.",msgUs:"Message us",lang:"عربي",
-  msgHead:"New order — ådirá",mName:"Name",mPhone:"Phone",mAddr:"Address",mPay:"Payment",mItems:"Items",mSub:"Subtotal",mDel:"Delivery",mTotal:"Total",mNotes:"Notes",mTbc:"to be confirmed",mPriceTbc:"price to confirm"},
+  msgHead:"New order — ådirá",mName:"Name",mPhone:"Phone",mAddr:"Address",mPay:"Payment",mItems:"Items",mSub:"Subtotal",mDel:"Delivery",mTotal:"Total",mNotes:"Notes",mRef:"Order",mTbc:"to be confirmed",mPriceTbc:"price to confirm"},
  ar:{basket:"السلة",search:"ابحث عن مربيات، مخللات، صلصات…",
   h1a:"مونة، برطمان ببرطمان.",h1b:"Mouneh, jar by jar.",
   lede:"مربيات ومخللات وصلصات ومونة محضّرة على الطريقة اللبنانية. املأ سلتك وأرسل الطلب عبر واتساب، ونؤكّد معك التوصيل هناك.",
@@ -383,7 +385,7 @@ const T = {
   needName:"اكتب اسمك.",needPhone:"اكتب رقم هاتف نقدر نوصلك عليه.",needAddress:"اكتب عنوان التوصيل أو المنطقة.",
   added:"أُضيف إلى السلة",opening:"جاري فتح واتساب…",loadFail:"تعذّر الوصول إلى جدول المنتجات. نعرض الأسعار المحفوظة.",
   viewOrder:"عرض الطلب",footer:"عندك سؤال عن طلب؟ نجيبك عبر واتساب.",msgUs:"راسلنا",lang:"EN",
-  msgHead:"طلب جديد — ådirá",mName:"الاسم",mPhone:"الهاتف",mAddr:"العنوان",mPay:"الدفع",mItems:"الطلب",mSub:"المجموع الفرعي",mDel:"التوصيل",mTotal:"المجموع",mNotes:"ملاحظات",mTbc:"يُحدَّد لاحقاً",mPriceTbc:"السعر يُؤكَّد"}
+  msgHead:"طلب جديد — ådirá",mName:"الاسم",mPhone:"الهاتف",mAddr:"العنوان",mPay:"الدفع",mItems:"الطلب",mSub:"المجموع الفرعي",mDel:"التوصيل",mTotal:"المجموع",mNotes:"ملاحظات",mRef:"رقم الطلب",mTbc:"يُحدَّد لاحقاً",mPriceTbc:"السعر يُؤكَّد"}
 };
 const CAT_COLORS = ["#E8772E","#2E8B57","#CE1126","#8E4BB5","#B07A2A","#1F7A8C","#C2185B"];
 
@@ -757,7 +759,13 @@ function sendOrder(){
   if(!ok){ const f=document.querySelector(".err:not(:empty)").parentElement.querySelector("input"); f.focus();
     if(MOTION) f.animate([{transform:"translateX(0)"},{transform:"translateX(-6px)"},{transform:"translateX(6px)"},{transform:"translateX(0)"}],{duration:300}); return; }
   const pay={cod:t("cod"),whish:t("whish"),omt:t("omt")}[d.pay]||d.pay;
-  const msg=[`*${t("msgHead")}*`,"",
+  const ref="ADR-"+Date.now().toString(36).slice(-5).toUpperCase()+Math.floor(Math.random()*36).toString(36).toUpperCase();
+  if(ORDERS_URL && !ORDERS_URL.startsWith("__")){
+    try{ fetch(ORDERS_URL,{method:"POST",mode:"no-cors",keepalive:true,headers:{"Content-Type":"text/plain;charset=utf-8"},
+      body:JSON.stringify({ref,name:d.name.trim(),phone:d.phone.trim(),address:d.address.trim(),payment:pay,notes:(d.notes||"").trim(),lang,deliveryFee:fee(),
+        items:cartItems().map(({p,n})=>({id:p.id,qty:n,name:p.name,unit:p.unit}))})}); }catch(e){}
+  }
+  const msg=[`*${t("msgHead")}*`,`${t("mRef")}: ${ref}`,"",
     `${t("mName")}: ${d.name.trim()}`,`${t("mPhone")}: ${d.phone.trim()}`,`${t("mAddr")}: ${d.address.trim()}`,`${t("mPay")}: ${pay}`,"",
     `*${t("mItems")}:*`, ...cartItems().map(({p,n})=>`• ${n} × ${L(p,"name")} (${L(p,"unit")}) — ${lineText(p,n)}`),"",
     `${t("mSub")}: ${allTbc()?t("mTbc"):money(subtotal())}`, `${t("mDel")}: ${fee()==null?t("mTbc"):money(fee())}`, `*${t("mTotal")}: ${totalText(true)}*`,
