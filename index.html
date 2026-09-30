@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en" dir="ltr">
 <head>
@@ -373,11 +374,19 @@ function toProducts(rows){
     image:r.image, badge:r.badge, badge_ar:r.badge_ar, popular:yes(r.popular),
     available:!/^(no|n|false|0|sold out)$/i.test(r.available||"yes") })).filter(p=>p.name);
 }
+/* Accepts any Google Sheets link (sharing link, edit link, or published CSV link) */
+function sheetCsvUrl(u){
+  if(!u) return "";
+  if(/\/spreadsheets\/d\/e\//.test(u) || /output=csv/.test(u)) return u;      // already a published CSV link
+  const m=u.match(/\/spreadsheets\/d\/([a-zA-Z0-9_-]{20,})/); if(!m) return u;
+  const gid=(u.match(/[#&?]gid=(\d+)/)||[])[1];
+  return `https://docs.google.com/spreadsheets/d/${m[1]}/gviz/tq?tqx=out:csv&headers=1${gid?"&gid="+gid:""}`;
+}
 async function loadProducts(){
-  for(const src of [SHEET_CSV_URL,"products.csv"].filter(Boolean)){
+  for(const src of [sheetCsvUrl(SHEET_CSV_URL),"products.csv"].filter(Boolean)){
     try{ const res=await fetch(src+(src.includes("?")?"&":"?")+"t="+Date.now()); if(!res.ok) throw 0;
-         const list=toProducts(parseCSV(await res.text())); if(list.length) return list; }
-    catch(e){ if(src===SHEET_CSV_URL) setTimeout(()=>toast(t("loadFail")),600); }
+         const txt=await res.text(); if(/^\s*</.test(txt)) throw 0; const list=toProducts(parseCSV(txt)); if(list.length) return list; }
+    catch(e){ if(src!=="products.csv") setTimeout(()=>toast(t("loadFail")),600); }
   }
   return toProducts(parseCSV(FALLBACK_CSV));
 }
